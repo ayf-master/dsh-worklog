@@ -2,6 +2,16 @@
 
 从 DeepSeek Harness 的会话日志里，还原你**真正做了什么**，按工作目录分组写成 Markdown 台账——日报、周报、月报同一套逻辑。
 
+## 安装
+
+```sh
+dsh plugin --profile desktop add dsh-worklog
+```
+
+桌面版请用应用内的 **设置 → 插件** 安装（桌面应用的 profile 归它自己的插件管理器管，命令行改不了）。装完刷新页面，设置里会多出「工作台账」一页。
+
+要求 DeepSeek Harness ≥ 0.2.1-rc.5。
+
 ## 它解决什么
 
 一天开五六个会话、跨三四个项目，晚上想写周报时已经想不起"今天到底推进了什么"。这个插件不问你，直接读会话日志：
@@ -30,7 +40,7 @@
 
 ## 设置页
 
-打开 **设置 → 插件 → 工作台账**，页面上直接有这些字段（改完立即生效，不用重启）：
+打开 **设置 → 工作台账**（左侧导航里独立的一项，在「通知提醒」下面），页面上直接有这些字段（改完立即生效，不用重启）：
 
 | 字段 | 说明 |
 | --- | --- |
@@ -97,16 +107,17 @@
 | 文件 | 作用 |
 | --- | --- |
 | `index.js` | host 侧插件：`/worklog` 命令、`worklog_generate` 工具、设置页 schema、定时器 |
+| `client.js` | 浏览器侧：设置 → 工作台账 那一页（`settings.section` 槽位） |
 | `cordis.patch.yml` | bundle 插入行 |
 | `locale/*.json` | 插件管理页显示名称与说明 |
 | `icon.svg` | 插件图标 |
 
 ## 说明
 
-- 只有 host 侧，没有客户端 UI，装完刷新生效，不需要重启。
+- host 侧管数据与定时，client 侧只管那一页设置；改完刷新页面即生效，不需要重启。
 - 台账是**从会话日志重建的**，所以它不会漏掉你已经忘了的会话，也不会编造没发生的事。
 - 会话日志是 zstd 压缩的多帧文件，插件不直接解盘，全部走 `sessionQuery` 服务读取。
-- 设置页由 `Config`（schemastery，字段带 `.volatile()`）自动生成；`@deepseek-ai/schemastery` 用宿主自带的版本，不要从 npm 装另一份，否则 volatile 字段会被静默丢弃。
+- 设置项由 `Config`（schemastery，字段带 `.volatile()`）声明，读写走 `settings` 服务；client 侧通过 `configForms` 拿到同一份表单。`@deepseek-ai/schemastery` 必须与宿主同版本（`~3.18.5`），换别的版本 volatile 字段会被静默丢弃。
 - 目录仍可用环境变量 `DSH_WORKLOG_DIR` 兜底（优先级低于设置页里的 `outputDir`）。
 
 MIT License
