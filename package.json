@@ -1,0 +1,64 @@
+{
+  "name": "dsh-worklog",
+  "version": "0.1.0",
+  "description": "Cross-project work log for DeepSeek Harness: rebuilds what you actually did in a day from session logs and writes a Markdown ledger grouped by working directory.",
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "worklog",
+    "daily",
+    "report"
+  ],
+  "type": "module",
+  "main": "./index.js",
+  "icon": "./icon.svg",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20",
+    "dsh": ">=0.2.1-rc.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ayf-master/dsh-worklog.git"
+  },
+  "homepage": "https://github.com/ayf-master/dsh-worklog#readme",
+  "bugs": {
+    "url": "https://github.com/ayf-master/dsh-worklog/issues"
+  },
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "cordis.patch.yml",
+    "locale",
+    "icon.svg",
+    "README.md",
+    "LICENSE"
+  ],
+  "dependencies": {
+    "@deepseek-ai/schemastery": "~3.18.5"
+  },
+  "dsh": {
+    "manifestVersion": 1,
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-settings",
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-client-ui-conversation"
+      ]
+    }
+  }
+}

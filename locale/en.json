@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Worklog",
+    "description": "Rebuilds daily, weekly, and monthly work reports from session logs, grouped by working directory; the ledger folder and every option live in the settings page."
+  }
+}
